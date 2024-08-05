@@ -10,7 +10,7 @@ load_dotenv()
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 NEWS_API_URL = os.getenv('NEWS_API_URL')
 KAFKA_BROKER = os.getenv('KAFKA_BROKER')
-KAFKA_TOPIC = 'news'
+KAFKA_TOPIC = os.getenv('KAFKA_TOPIC_1')
 QUERY_PARAMS = 'technology'
 
 def get_news(NEWS_API_KEY, QUERY_PARAMS):
