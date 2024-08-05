@@ -17,7 +17,7 @@ def delivery_report(err, msg):
         print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
 
-json_file_path = 'C:/Users/alecm/Projects/docker-elk-main/docker-elk-main/nginx.log'
+json_file_path = 'C:/Users/alecm/Projects/nginx.log'
 kafka_topic = 'nginx2'
 
 def send_json_logs_to_kafka(file_path, topic):
