@@ -40,7 +40,6 @@ def main():
 
     while True:
         news_articles = get_news(NEWS_API_KEY, QUERY_PARAMS)
-
         send_to_kafka(producer, KAFKA_TOPIC, news_articles)
         time.sleep(5)
 
