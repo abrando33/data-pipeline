@@ -8,17 +8,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
-NEWS_API_URL = 'https://newsapi.org/v2/everything'
-KAFKA_BROKER = 'localhost:29092'
+NEWS_API_URL = os.getenv('NEWS_API_URL')
+KAFKA_BROKER = os.getenv('KAFKA_BROKER')
 KAFKA_TOPIC = 'news'
-COUNTRY = 'us' 
+QUERY_PARAMS = 'technology'
 
-def get_news(api_key, technology):
+def get_news(NEWS_API_KEY, QUERY_PARAMS):
     params = {
-        'q': technology,
-        'apiKey': api_key
-        
+        'q': QUERY_PARAMS,
+        'apiKey': NEWS_API_KEY  
     }
+
     response = requests.get(NEWS_API_URL, params=params)
     if response.status_code == 200:
         return response.json()['articles']
@@ -39,7 +39,7 @@ def main():
     )
 
     while True:
-        news_articles = get_news(NEWS_API_KEY, COUNTRY)
+        news_articles = get_news(NEWS_API_KEY, QUERY_PARAMS)
 
         send_to_kafka(producer, KAFKA_TOPIC, news_articles)
         time.sleep(5)
