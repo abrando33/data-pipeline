@@ -2,8 +2,12 @@ import requests
 from kafka import KafkaProducer
 import json
 import time
+import os
+from dotenv import load_dotenv
 
-NEWS_API_KEY = '54b4055df9974f00bd0ab0a4898d9458'
+load_dotenv()
+
+NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 NEWS_API_URL = 'https://newsapi.org/v2/everything'
 KAFKA_BROKER = 'localhost:29092'
 KAFKA_TOPIC = 'news'
