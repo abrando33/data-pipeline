@@ -1,9 +1,16 @@
 import json
 import time
 from confluent_kafka import Producer
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+json_file_path = os.getenv('JSON_FILE_PATH')
+kafka_topic = os.getenv('KAFKA_TOPIC_2')
 
 kafka_conf = {
-    'bootstrap.servers': 'localhost:29092',  
+    'bootstrap.servers': os.getenv('KAFKA_BROKER'),  
     'client.id': 'json-producer'
 }
 
@@ -16,9 +23,6 @@ def delivery_report(err, msg):
     else:
         print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
-
-json_file_path = 'C:/Users/alecm/Projects/nginx.log'
-kafka_topic = 'nginx2'
 
 def send_json_logs_to_kafka(file_path, topic):
     with open(file_path, 'r') as json_file:
