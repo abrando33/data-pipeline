@@ -16,12 +16,13 @@ services:
       - ./setup/roles:/roles:ro,Z
     environment:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
-      LOGSTASH_PASSWORD: ${LOGSTASH_PASSWORD:-}
-      KIBANA_PASSWORD: ${KIBANA_PASSWORD:-}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
     networks:
       - elk
     depends_on:
       - elasticsearch
+      
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
@@ -71,6 +72,7 @@ services:
       "
     networks:
       - elk  
+      
   elasticsearch:
     container_name: elasticsearch
     build:
@@ -109,7 +111,7 @@ services:
       - 9600:9600
     environment:
       LS_JAVA_OPTS: -Xms256m -Xmx256m
-      LOGSTASH_PASSWORD: ${LOGSTASH_PASSWORD:-}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
     networks:
       - elk
     depends_on:
@@ -127,7 +129,7 @@ services:
     ports:
       - 5601:5601
     environment:
-      KIBANA_PASSWORD: ${KIBANA_PASSWORD:-}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
     networks:
       - elk
     depends_on:
