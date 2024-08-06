@@ -8,20 +8,18 @@ load_dotenv()
 
 json_file_path = os.getenv('JSON_FILE_PATH')
 kafka_topic = os.getenv('KAFKA_TOPIC_2')
+producer = Producer(kafka_conf)
 
 kafka_conf = {
     'bootstrap.servers': os.getenv('KAFKA_BROKER'),  
     'client.id': 'json-producer'
 }
 
-producer = Producer(kafka_conf)
-
 def delivery_report(err, msg):
     if err is not None:
         print(f"Delivery failed for message {msg.key()}: {err}")
     else:
         print(f"Message delivered to {msg.topic()}")
-
 
 def send_json_logs_to_kafka(file_path, topic):
     with open(file_path, 'r') as json_file:
