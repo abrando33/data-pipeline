@@ -20,7 +20,7 @@ def delivery_report(err, msg):
     if err is not None:
         print(f"Delivery failed for message {msg.key()}: {err}")
     else:
-        print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
+        print(f"Message delivered to {msg.topic()}")
 
 
 def send_json_logs_to_kafka(file_path, topic):
