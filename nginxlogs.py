@@ -17,7 +17,6 @@ kafka_conf = {
 producer = Producer(kafka_conf)
 
 def delivery_report(err, msg):
-    """ Delivery report callback called once for each message produced """
     if err is not None:
         print(f"Delivery failed for message {msg.key()}: {err}")
     else:
