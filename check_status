@@ -1,5 +1,4 @@
 #!/bin/bash
-
 check_docker_status() {
     echo "Checking pipeline status..."
     docker ps -a --format "table {{.Names}}\t{{.Status}}"
