@@ -12,7 +12,9 @@ To initially build containers from the images in the docker-compose.yml run: doc
 
 To start the containers run docker compose up
 
-To monitor the containers, check the status on docker desktop and monitor logs
+To monitor the containers, check the status on docker desktop or run ./check_status
+
+To check the pipeline progress, run ./monitor_pipeline
 
 To stop the containers run docker compose down
 
