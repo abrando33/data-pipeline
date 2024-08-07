@@ -1,0 +1,59 @@
+#!/bin/bash
+
+KAFKA_CONTAINER="kafka"
+LOGSTASH_CONTAINER="logstash"
+ELASTICSEARCH_CONTAINER="elasticsearch"
+
+KAFKA_LOG_KEYWORD="Received file"
+LOGSTASH_LOG_KEYWORD="Sending to Elasticsearch"
+ELASTICSEARCH_LOG_KEYWORD="Indexed document"
+
+check_kafka_logs() {
+    echo "Checking Kafka container logs..."
+    if docker logs $KAFKA_CONTAINER 2>&1 | grep -q "$KAFKA_LOG_KEYWORD"; then
+        echo "Kafka is receiving files."
+    else
+        echo "Kafka is not receiving files."
+        return 1
+    fi
+}
+
+check_logstash_logs() {
+    echo "Checking Logstash container logs..."
+    if docker logs $LOGSTASH_CONTAINER 2>&1 | grep -q "$LOGSTASH_LOG_KEYWORD"; then
+        echo "Logstash is sending data to Elasticsearch."
+    else
+        echo "Logstash is not sending data to Elasticsearch."
+        return 1
+    fi
+}
+
+check_elasticsearch_logs() {
+    echo "Checking Elasticsearch container logs..."
+    if docker logs $ELASTICSEARCH_CONTAINER 2>&1 | grep -q "$ELASTICSEARCH_LOG_KEYWORD"; then
+        echo "Elasticsearch is receiving data."
+    else
+        echo "Elasticsearch is not receiving data."
+        return 1
+    fi
+}
+
+monitor_pipeline() {
+    check_kafka_logs
+    kafka_status=$?
+
+    check_logstash_logs
+    logstash_status=$?
+
+    check_elasticsearch_logs
+    elasticsearch_status=$?
+
+    if [ $kafka_status -eq 0 ] && [ $logstash_status -eq 0 ] && [ $elasticsearch_status -eq 0 ]; then
+        echo "Pipeline is functioning correctly."
+    else
+        echo "Pipeline has issues."
+        exit 1
+    fi
+}
+
+monitor_pipeline
